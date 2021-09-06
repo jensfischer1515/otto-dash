@@ -1,6 +1,5 @@
 package de.otto.dash.rest;
 
-import co.elastic.apm.api.CaptureSpan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
@@ -41,7 +40,6 @@ public class TokenHandler {
         return token.accessToken();
     }
 
-    @CaptureSpan(value = "OTTO EC API: OAuth2 token exchange", type = "external", subtype = "http")
     protected Token executeTokenExchange(String scopes) {
         LOGGER.debug("Exchanging client credentials with OAuth2 token from {}", provider.getTokenUri());
 

@@ -1,10 +1,9 @@
 package de.otto.dash.checkout;
 
-import co.elastic.apm.api.CaptureSpan;
 import de.otto.dash.checkout.CheckoutModel.*;
+import de.otto.dash.customer.CustomerModel.Address;
 import de.otto.dash.rest.RestConfigurationProperties;
 import de.otto.dash.rest.TokenHandler;
-import de.otto.dash.customer.CustomerModel.Address;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -54,7 +53,6 @@ public class CheckoutRestClient {
                 .build();
     }
 
-    @CaptureSpan(value = "Checkout API: create checkout", type = "external", subtype = "http")
     public ResponseEntity<Checkout> create(String ecuuid) {
         LOGGER.debug("Creating new checkout");
 
@@ -67,7 +65,6 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, Checkout.class);
     }
 
-    @CaptureSpan(value = "Checkout API: add item to checkout", type = "external", subtype = "http")
     public ResponseEntity<CheckoutItem> addItem(String ecuuid, String checkoutId, CheckoutItem checkoutItem) {
         LOGGER.debug("Adding {} to checkout {}", checkoutItem, checkoutId);
 
@@ -81,7 +78,6 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, CheckoutItem.class);
     }
 
-    @CaptureSpan(value = "Checkout API: set payment method of checkout", type = "external", subtype = "http")
     public ResponseEntity<PaymentMethod> setPaymentMethod(String ecuuid, String checkoutId, PaymentMethod paymentMethod) {
         LOGGER.debug("Setting {} to checkout {}", paymentMethod, checkoutId);
 
@@ -95,7 +91,6 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, PaymentMethod.class);
     }
 
-    @CaptureSpan(value = "Checkout API: set invoice address of checkout", type = "external", subtype = "http")
     public ResponseEntity<Address> setInvoiceAddress(String ecuuid, String checkoutId, Address invoiceAddress) {
         LOGGER.debug("Setting {} as invoice address to checkout {}", invoiceAddress, checkoutId);
 
@@ -109,7 +104,6 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, Address.class);
     }
 
-    @CaptureSpan(value = "Checkout API: set delivery address of checkout", type = "external", subtype = "http")
     public ResponseEntity<DeliveryAddress> setDeliveryAddress(String ecuuid, String checkoutId, DeliveryAddress deliveryAddress) {
         LOGGER.debug("Setting {} as delivery address to checkout {}", deliveryAddress, checkoutId);
 
@@ -123,7 +117,6 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, DeliveryAddress.class);
     }
 
-    @CaptureSpan(value = "Checkout API: place order", type = "external", subtype = "http")
     public ResponseEntity<OrderedCheckout> order(String ecuuid, String checkoutId, CheckoutOrder checkoutOrder) {
         LOGGER.debug("Placing order from checkout {}", checkoutId);
 

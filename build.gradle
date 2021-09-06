@@ -29,11 +29,6 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine'
     implementation 'io.vavr:vavr:0.10.4'
 
-    implementation 'co.elastic.apm:apm-agent-attach:1.25.0'
-    implementation 'co.elastic.apm:apm-agent-api:1.25.0'
-    implementation 'co.elastic.apm:apm-opentracing:1.25.0'
-    implementation 'io.opentracing.contrib:opentracing-mongo-driver:0.1.5'
-
     runtimeOnly 'org.webjars:webjars-locator:0.41'
     runtimeOnly 'org.webjars:bootstrap:5.1.0'
     runtimeOnly 'org.webjars:jquery:3.6.0'

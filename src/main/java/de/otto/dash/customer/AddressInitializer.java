@@ -1,6 +1,5 @@
 package de.otto.dash.customer;
 
-import co.elastic.apm.api.CaptureTransaction;
 import de.otto.dash.customer.CustomerModel.Address;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,6 @@ public class AddressInitializer implements ApplicationListener<ApplicationStarte
     }
 
     @Override
-    @CaptureTransaction(value = "initialize address", type = "external")
     public void onApplicationEvent(ApplicationStartedEvent event) {
         addressRepository.deleteAll();
         addressRepository.findById(MY_ECUUID).ifPresentOrElse(

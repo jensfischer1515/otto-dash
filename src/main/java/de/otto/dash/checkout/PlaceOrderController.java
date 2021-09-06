@@ -1,7 +1,5 @@
 package de.otto.dash.checkout;
 
-import co.elastic.apm.api.ElasticApm;
-import co.elastic.apm.api.Transaction;
 import de.otto.dash.checkout.CheckoutModel.CheckoutItem;
 import de.otto.dash.checkout.CheckoutModel.CheckoutOrder;
 import de.otto.dash.checkout.CheckoutModel.DeliveryAddress;
@@ -49,9 +47,6 @@ public class PlaceOrderController {
 
             // use Checkout API
             var checkout = checkoutRestClient.create(ecuuid).getBody();
-
-            Transaction transaction = ElasticApm.currentTransaction();
-            transaction.setLabel("orderId", checkout.orderId());
 
             checkoutRestClient.addItem(ecuuid, checkout.id(), checkoutItem);
             checkoutRestClient.setPaymentMethod(ecuuid, checkout.id(), paymentMethod);
