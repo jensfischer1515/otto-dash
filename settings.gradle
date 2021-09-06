@@ -1,1 +1,2 @@
-rootProject.name = 'tracing-demo-service'
+rootProject.name = 'otto-dash'
+include 'doq21'

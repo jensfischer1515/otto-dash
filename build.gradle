@@ -1,43 +1,42 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.4'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.5.4'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
-group = 'de.otto.tracing'
+group = 'de.otto.doq.tracing'
 version = '0.1-localbuild'
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 
 repositories {
-	mavenCentral()
-}
-
-ext {
-	set('springCloudVersion', "2020.0.3")
-}
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
-	implementation group: 'co.elastic.apm', name: 'apm-opentracing', version: '1.25.0'
-	implementation group: 'co.elastic.apm', name: 'apm-agent-attach', version: '1.25.0'
-	implementation group: 'co.elastic.apm', name: 'apm-agent-api', version: '1.25.0'
-
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    mavenCentral()
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.3"
+    }
 }
 
-test {
-	useJUnitPlatform()
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.apache.httpcomponents:httpclient'
+    implementation 'org.zalando:logbook-spring-boot-starter:2.12.0'
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+    implementation 'io.vavr:vavr:0.10.4'
+
+    implementation 'co.elastic.apm:apm-agent-attach:1.25.0'
+    implementation 'co.elastic.apm:apm-agent-api:1.25.0'
+    implementation 'co.elastic.apm:apm-opentracing:1.25.0'
+    implementation 'io.opentracing.contrib:opentracing-mongo-driver:0.1.5'
+
+    runtimeOnly 'org.webjars:webjars-locator:0.41'
+    runtimeOnly 'org.webjars:bootstrap:5.1.0'
+    runtimeOnly 'org.webjars:jquery:3.6.0'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }

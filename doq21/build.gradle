@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'de.otto.doq21'
+version = '0.1-localbuild'
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.5.4'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.5.4'
+
+    implementation 'co.elastic.apm:apm-agent-attach:1.25.0'
+    implementation 'co.elastic.apm:apm-agent-api:1.25.0'
+    implementation 'co.elastic.apm:apm-opentracing:1.25.0'
+    implementation 'io.opentracing.contrib:opentracing-mongo-driver:0.1.5'
+}
