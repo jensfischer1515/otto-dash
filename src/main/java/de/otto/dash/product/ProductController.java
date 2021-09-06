@@ -37,7 +37,7 @@ public class ProductController {
             return "redirect:" + uriComponentsBuilder
                     .replacePath("/")
                     .replaceQueryParam(RequestParams.ECUUID, ecuuid.orElse(MY_ECUUID))
-                    .replaceQueryParam(RequestParams.RETAILER_ID, retailerId.orElse(RetailerIds.APART))
+                    .replaceQueryParam(RequestParams.RETAILER_ID, retailerId.orElse(RetailerIds.OTTO_OFFICE))
                     .replaceQueryParam(RequestParams.PAGE, page.orElse(0))
                     .replaceQueryParam(RequestParams.PAGE_SIZE, pageSize.orElse(20))
                     .toUriString();

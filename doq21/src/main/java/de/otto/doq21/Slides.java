@@ -246,7 +246,7 @@ Checkout API : Team FT1
 ?>>> Authorization: Bearer <JWT>
 
 *<<< HTTP/1.1 200 OK
-*<<< Content-Type: application/hal+json;charset=UTF-8
+*<<< Content-Type: application/hal+json
 *<<<
 *<<< {"_links":{"curies":[{"href":"http://spec.otto.de/link-relations/{rel}","templated":true,"name":"o"}],"o:product":[{"href":"/opal-product/products/603656900","type":"application/hal+json","title":"Sigikid Aktiv-Anhänger Wald, PlayQ Wuller Wullawoods (41505...
 
