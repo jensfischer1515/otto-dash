@@ -133,7 +133,7 @@ public class Slides {
 ██  ██  ██ ██   ██ ██   ██ ██  ██ ██ ██   ██
 ██   ██ ██ ██████  ██   ██ ██   ████ ██   ██
 
-https://kibana-ft1.live.logmon.cloud.otto.de/app/apm/?kuery=&rangeFrom=now-3h&rangeTo=now&environment=live
+https://kibana-ft1.live.logmon.cloud.otto.de/app/apm/services/order-core/service-map?rangeFrom=now-8h&rangeTo=now&environment=live
 
 
 
@@ -215,7 +215,7 @@ v+=x+
 ██    ██    ██       ██    ██    ██     ██      ██          ██   ██ ██      ██
  ██████     ██       ██     ██████      ███████  ██████     ██   ██ ██      ██
 
-https://api.develop.otto.de/api-docs/
+https://api.develop.otto.de/portal/
 
 Product API  : Team Opal
 Checkout API : Team FT1
@@ -381,7 +381,7 @@ http://otto-dash.localtest.me:8080/
             String name
     ) {
         void typesAndVars() {
-            MyPojo myPojo = new MyPojo(1, "name");
+            var myPojo = new MyPojo(1, "name");
             var myRecord = new MyRecord(1, "name");
             assert myPojo.getId() == myRecord.id();
             //myRecord.name("immutable");
@@ -633,7 +633,7 @@ src/main/resources/elasticapm.properties:
 ███████ ███████ ██   ██   ████   ██  ██████ ███████       ████   ███████ ██   ██ ███████ ██  ██████  ██   ████
 
 See each deployment as a new green bubble in Kibana
-https://kibana-ft1.live.logmon.cloud.otto.de/app/apm/services/checkout-core/transactions/view?kuery=&rangeFrom=now-1w&rangeTo=now&environment=develop&transactionName=CheckoutController%23loadCheckout
+https://kibana-ft1.live.logmon.cloud.otto.de/app/apm/services/checkout-core/transactions/view?kuery=&rangeFrom=now-3d&rangeTo=now&environment=develop&transactionName=CheckoutController%23loadCheckout
 
  */
 
