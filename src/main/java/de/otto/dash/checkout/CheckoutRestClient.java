@@ -1,10 +1,12 @@
 package de.otto.dash.checkout;
 
 import co.elastic.apm.api.CaptureSpan;
+import co.elastic.apm.api.ElasticApm;
 import de.otto.dash.checkout.CheckoutModel.*;
 import de.otto.dash.rest.RestConfigurationProperties;
 import de.otto.dash.rest.TokenHandler;
 import de.otto.dash.customer.CustomerModel.Address;
+import io.opentracing.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -14,6 +16,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.UUID;
 
 @Component
 public class CheckoutRestClient {
@@ -42,16 +46,20 @@ public class CheckoutRestClient {
 
     private final RestTemplate restTemplate;
 
+    private final Tracer tracer;
+
     public CheckoutRestClient(
             RestConfigurationProperties properties,
             RestTemplateBuilder restTemplateBuilder,
-            TokenHandler tokenHandler
+            TokenHandler tokenHandler,
+            Tracer tracer
     ) {
         this.restTemplate = restTemplateBuilder
-                .rootUri(properties.endpoint().url() + "/checkout-core")
+                .rootUri(properties.endpoint().url() + "/order-checkout")
                 .additionalRequestCustomizers(request -> request.getHeaders().add(HttpHeaders.AUTHORIZATION, "Bearer " + tokenHandler.getBearerToken()))
                 .defaultHeader(HttpHeaders.USER_AGENT, tokenHandler.userAgent())
                 .build();
+        this.tracer = tracer;
     }
 
     @CaptureSpan(value = "Checkout API: create checkout", type = "external", subtype = "http")
@@ -133,6 +141,15 @@ public class CheckoutRestClient {
                 .accept(MediaTypes.ORDERED_CHECKOUT_V1)
                 .contentType(MediaTypes.CHECKOUT_ORDER_V1)
                 .body(checkoutOrder);
+
+        io.opentracing.Span openSpan = tracer.activeSpan();
+        openSpan.setTag("dash.open.span.key", UUID.randomUUID().toString());
+
+        co.elastic.apm.api.Span vendorSpan = ElasticApm.currentSpan();
+        vendorSpan.setLabel("dash.vendor.span.key", UUID.randomUUID().toString());
+
+        co.elastic.apm.api.Transaction vendorTransaction = ElasticApm.currentTransaction();
+        vendorTransaction.setLabel("dash.vendor.transaction.key", UUID.randomUUID().toString());
 
         return restTemplate.exchange(request, OrderedCheckout.class);
     }

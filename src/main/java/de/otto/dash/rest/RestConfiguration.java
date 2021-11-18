@@ -25,9 +25,9 @@ public class RestConfiguration {
     @Bean
     public ClientHttpRequestFactory clientHttpRequestFactory(RestConfigurationProperties properties) {
         var requestFactory = new HttpComponentsClientHttpRequestFactory();
-        requestFactory.setConnectionRequestTimeout(properties.endpoint().connectTimeout());
-        requestFactory.setConnectTimeout(properties.endpoint().connectTimeout());
-        requestFactory.setReadTimeout(properties.endpoint().readTimeout());
+        requestFactory.setConnectionRequestTimeout(Math.toIntExact(properties.endpoint().connectTimeout().toMillis()));
+        requestFactory.setConnectTimeout(Math.toIntExact(properties.endpoint().connectTimeout().toMillis()));
+        requestFactory.setReadTimeout(Math.toIntExact(properties.endpoint().readTimeout().toMillis()));
 
         return new BufferingClientHttpRequestFactory(requestFactory);
     }
