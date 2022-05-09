@@ -25,19 +25,19 @@ public class CheckoutRestClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(CheckoutRestClient.class);
 
     interface MediaTypes {
-        MediaType CHECKOUT_V2 = MediaType.valueOf("application/hal+json;charset=utf-8;profile=\"https://api.otto.de/api-docs/profiles/checkout\";version=2");
+        MediaType CHECKOUT_V3 = MediaType.valueOf("application/hal+json;charset=utf-8;profile=\"https://api.otto.de/api-docs/profiles/checkout\";version=3");
 
         MediaType CHECKOUT_ITEM_V1 = MediaType.valueOf("application/hal+json;charset=utf-8;profile=\"https://api.otto.de/api-docs/profiles/checkout-item\";version=1");
 
-        MediaType CHECKOUT_PAYMENT_V1 = MediaType.valueOf("application/hal+json;profile=\"https://api.otto.de/profiles/checkout-payment+v1\"");
+        MediaType CHECKOUT_PAYMENT_V1 = MediaType.valueOf("application/hal+json;profile=\"https://api.otto.de/portal/profiles/checkout/payment+v1\"");
 
-        MediaType CHECKOUT_INVOICE_ADDRESS_V1 = MediaType.valueOf("application/hal+json;profile=\"https://api.otto.de/profiles/checkout-invoice-address+v1\"");
+        MediaType CHECKOUT_INVOICE_ADDRESS_V1 = MediaType.valueOf("application/hal+json;profile=\"https://api.otto.de/portal/profiles/checkout/invoice-address+v1\"");
 
-        MediaType CHECKOUT_DELIVERY_ADDRESS_V1 = MediaType.valueOf("application/hal+json;profile=\"https://api.otto.de/profiles/checkout-delivery-address+v1\"");
+        MediaType CHECKOUT_DELIVERY_ADDRESS_V1 = MediaType.valueOf("application/hal+json;profile=\"https://api.otto.de/portal/profiles/checkout/delivery-address+v1\"");
 
-        MediaType CHECKOUT_ORDER_V1 = MediaType.valueOf("application/hal+json;charset=utf-8;profile=\"https://api.otto.de/api-docs/profiles/checkout-order\";version=1");
+        MediaType CHECKOUT_ORDER_V2 = MediaType.valueOf("application/hal+json;charset=utf-8;profile=\"https://api.otto.de/api-docs/profiles/checkout-order\";version=2");
 
-        MediaType ORDERED_CHECKOUT_V1 = MediaType.valueOf("application/hal+json;charset=utf-8;profile=\"https://api.otto.de/api-docs/profiles/ordered-checkout\";version=1");
+        MediaType ORDERED_CHECKOUT_V2 = MediaType.valueOf("application/hal+json;charset=utf-8;profile=\"https://api.otto.de/api-docs/profiles/ordered-checkout\";version=2");
     }
 
     interface Headers {
@@ -69,7 +69,7 @@ public class CheckoutRestClient {
         var request = RequestEntity
                 .post("/checkouts")
                 .header(Headers.ECUUID, ecuuid)
-                .accept(MediaTypes.CHECKOUT_V2)
+                .accept(MediaTypes.CHECKOUT_V3)
                 .build();
 
         return restTemplate.exchange(request, Checkout.class);
@@ -97,7 +97,7 @@ public class CheckoutRestClient {
                 .put("/checkouts/{checkoutId}/payment", checkoutId)
                 .header(Headers.ECUUID, ecuuid)
                 .accept(MediaTypes.CHECKOUT_PAYMENT_V1)
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaTypes.CHECKOUT_PAYMENT_V1)
                 .body(paymentMethod);
 
         return restTemplate.exchange(request, PaymentMethod.class);
@@ -111,7 +111,7 @@ public class CheckoutRestClient {
                 .put("/checkouts/{checkoutId}/invoice-address", checkoutId)
                 .header(Headers.ECUUID, ecuuid)
                 .accept(MediaTypes.CHECKOUT_INVOICE_ADDRESS_V1)
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaTypes.CHECKOUT_INVOICE_ADDRESS_V1)
                 .body(invoiceAddress);
 
         return restTemplate.exchange(request, Address.class);
@@ -125,7 +125,7 @@ public class CheckoutRestClient {
                 .put("/checkouts/{checkoutId}/delivery-address", checkoutId)
                 .header(Headers.ECUUID, ecuuid)
                 .accept(MediaTypes.CHECKOUT_DELIVERY_ADDRESS_V1)
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaTypes.CHECKOUT_DELIVERY_ADDRESS_V1)
                 .body(deliveryAddress);
 
         return restTemplate.exchange(request, DeliveryAddress.class);
@@ -138,8 +138,8 @@ public class CheckoutRestClient {
         var request = RequestEntity
                 .post("/checkouts/{checkoutId}/order", checkoutId)
                 .header(Headers.ECUUID, ecuuid)
-                .accept(MediaTypes.ORDERED_CHECKOUT_V1)
-                .contentType(MediaTypes.CHECKOUT_ORDER_V1)
+                .accept(MediaTypes.ORDERED_CHECKOUT_V2)
+                .contentType(MediaTypes.CHECKOUT_ORDER_V2)
                 .body(checkoutOrder);
 
         io.opentracing.Span openSpan = tracer.activeSpan();

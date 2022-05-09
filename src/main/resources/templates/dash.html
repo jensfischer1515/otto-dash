@@ -24,35 +24,11 @@
 </head>
 <body>
 
-<div class="container-fluid my-sm-5 px-5"
-     th:with="retailerId=${param.retailerId?.get(0) ?: ''}"
->
+<div class="container-fluid my-sm-5 px-5">
     <!--@thymesVar id="ecuuid" type="java.lang.String"-->
-    <!--@thymesVar id="availableRetailers" type="java.util.List<de.otto.dash.product.ProductModel$Retailer>"-->
-    <!--@thymesVar id="selectedRetailer" type="de.otto.dash.product.ProductModel.Retailer"-->
     <!--@thymesVar id="variations" type="java.util.List<de.otto.dash.product.ProductModel$Variation>"-->
 
     <h1>OTTO Dash</h1>
-
-    <div class="dropdown">
-        <button type="button"
-                class="btn btn-outline-primary dropdown-toggle"
-                data-bs-toggle="dropdown"
-                th:text="'Choose retailer (' + ${selectedRetailer.name() + ')'}"
-        >Choose retailer (None)
-        </button>
-        <ul class="dropdown-menu"
-            th:with="page=${param.page?.get(0) ?: '0'},pageSize=${param.pageSize?.get(0) ?: '20'}"
-        >
-            <li th:each="retailer: ${availableRetailers}">
-                <a href="#"
-                   th:href="@{/(ecuuid=${ecuuid},retailerId=${retailer.id},page=${page},pageSize=${pageSize})}"
-                   class="dropdown-item"
-                   th:classappend="${(selectedRetailer == retailer) ? 'active': ''}"
-                   th:text="${retailer.name}">retailer.name</a>
-            </li>
-        </ul>
-    </div>
 
     <ul class="productlist list-group list-group-horizontal-sm text-center">
         <li th:each="variation: ${variations}"
@@ -61,7 +37,7 @@
             <form class="card text-center"
                   method="post"
                   action="#"
-                  th:action="@{/placeOrder(ecuuid=${ecuuid},variationId=${variation.id},retailerId=${selectedRetailer.id})}">
+                  th:action="@{/placeOrder(ecuuid=${ecuuid},variationId=${variation.id})}">
                 <img th:with="imageUri=(${variation.embedded.images?.mainImageUri} ?: 'https://i.otto.de/i/otto/lh_platzhalter_ohne_abbildung')"
                      th:src="@{${imageUri}('$formatz$')}"
                      th:alt="${variation.name}"

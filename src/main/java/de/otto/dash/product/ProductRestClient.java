@@ -21,6 +21,7 @@ public class ProductRestClient {
 
     interface MediaTypes {
         MediaType APPLICATION_HAL_JSON = MediaType.valueOf("application/hal+json");
+        MediaType PRODUCT_COLLECTION = MediaType.valueOf("application/hal+json;profile=\"https://api.otto.de/portal/profiles/product/product-collection+v1\"");
     }
 
     interface QueryParams {
@@ -28,7 +29,7 @@ public class ProductRestClient {
         String EMBEDDED = "embedded";
         String PAGE = "page";
         String PAGE_SIZE = "pageSize";
-        String RETAILER_ID = "retailerId";
+        String BRAND_ID = "brandId";
     }
 
     private final RestTemplate restTemplate;
@@ -45,8 +46,8 @@ public class ProductRestClient {
                 .build();
     }
 
-    public ResponseEntity<Products> findByRetailerId(String retailerId, int page, int pageSize) {
-        LOGGER.debug("Fetching products for retailer id {}", retailerId);
+    public ResponseEntity<Products> findByBrandId(String brandId, int page, int pageSize) {
+        LOGGER.debug("Fetching products for brand id {}", brandId);
 
         var uri = UriComponentsBuilder
                 .fromPath("/")
@@ -54,13 +55,14 @@ public class ProductRestClient {
                 .queryParam(QueryParams.INCLUDE_INACTIVE, false)
                 .queryParam(QueryParams.PAGE, page)
                 .queryParam(QueryParams.PAGE_SIZE, pageSize)
-                .queryParam(QueryParams.RETAILER_ID, retailerId)
+                .queryParam(QueryParams.BRAND_ID, brandId)
                 .build()
                 .toUriString();
 
         var request = RequestEntity
                 .get(uri)
                 .accept(MediaTypes.APPLICATION_HAL_JSON)
+                //.accept(MediaTypes.PRODUCT_COLLECTION)
                 .build();
 
         return restTemplate.exchange(request, Products.class);

@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2Clien
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
 import java.time.Duration;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class CachingTokenHandler extends TokenHandler {
@@ -27,18 +28,13 @@ public class CachingTokenHandler extends TokenHandler {
 
     @Override
     public String getBearerToken() {
-        Token token = tokenCache.get(scopes());
+        Token token = Optional.ofNullable(tokenCache.get(scopes()))
+                .orElseThrow(() -> new IllegalStateException("No cached token found"));
         return token.accessToken();
     }
 
     // Evict based on a varying expiration policy
-    private static class TokenExpiry implements Expiry<String, Token> {
-
-        private final Duration expiryBuffer;
-
-        private TokenExpiry(Duration expiryBuffer) {
-            this.expiryBuffer = expiryBuffer;
-        }
+    private record TokenExpiry(Duration expiryBuffer) implements Expiry<String, Token> {
 
         @Override
         public long expireAfterCreate(String scopes, Token token, long currentTime) {

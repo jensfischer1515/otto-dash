@@ -54,13 +54,14 @@ public interface CheckoutModel {
     record CheckoutOrder(
             String clientIp,
             String customerEmail,
-            String trackingOrderId
+            String trackingOrderId,
+            int installmentTotalInterest
     ) {
         CheckoutOrder(
                 String clientIp,
                 String customerEmail
         ) {
-            this(clientIp, customerEmail, null);
+            this(clientIp, customerEmail, null, 0);
         }
     }
 

@@ -4,7 +4,6 @@ import de.otto.dash.config.ModelAttributes;
 import de.otto.dash.config.RequestParams;
 import de.otto.dash.product.ProductModel.Product;
 import de.otto.dash.product.ProductModel.ProductEmbedded;
-import de.otto.dash.product.RetailerRepository.RetailerIds;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,20 +28,18 @@ public class ProductController {
             ModelMap model,
             UriComponentsBuilder uriComponentsBuilder,
             @RequestParam(RequestParams.ECUUID) Optional<String> ecuuid,
-            @RequestParam(RequestParams.RETAILER_ID) Optional<String> retailerId,
             @RequestParam(RequestParams.PAGE) Optional<Integer> page,
             @RequestParam(RequestParams.PAGE_SIZE) Optional<Integer> pageSize
     ) {
-        if (ecuuid.isEmpty() || retailerId.isEmpty() || page.isEmpty() || pageSize.isEmpty()) {
+        if (ecuuid.isEmpty() || page.isEmpty() || pageSize.isEmpty()) {
             return "redirect:" + uriComponentsBuilder
                     .replacePath("/")
                     .replaceQueryParam(RequestParams.ECUUID, ecuuid.orElse(MY_ECUUID))
-                    .replaceQueryParam(RequestParams.RETAILER_ID, retailerId.orElse(RetailerIds.OTTO_OFFICE))
                     .replaceQueryParam(RequestParams.PAGE, page.orElse(0))
                     .replaceQueryParam(RequestParams.PAGE_SIZE, pageSize.orElse(20))
                     .toUriString();
         } else {
-            var variations = productRestClient.findByRetailerId(retailerId.get(), page.get(), pageSize.get())
+            var variations = productRestClient.findByBrandId("S000002Xft1", page.get(), pageSize.get())
                     .getBody()
                     .embedded()
                     .products()

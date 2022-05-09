@@ -8,12 +8,6 @@ import java.util.*;
 
 public interface ProductModel {
 
-    record Retailer(
-            String id,
-            String name
-    ) {
-    }
-
     record Products(
             @JsonProperty("_embedded") ProductsEmbedded embedded
     ) {

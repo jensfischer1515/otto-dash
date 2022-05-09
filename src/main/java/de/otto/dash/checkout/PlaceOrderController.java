@@ -36,7 +36,6 @@ public class PlaceOrderController {
             RedirectAttributes redirectAttributes,
             HttpServletRequest request,
             @RequestParam(RequestParams.ECUUID) String ecuuid,
-            @RequestParam(RequestParams.RETAILER_ID) String retailerId,
             @RequestParam(RequestParams.VARIATION_ID) String variationId
     ) {
         try (var mdc = MDC.putCloseable(MdcKeys.ECUUID, ecuuid)) {
@@ -62,14 +61,12 @@ public class PlaceOrderController {
 
             // Redirect-after-POST
             redirectAttributes.addFlashAttribute(ModelAttributes.ECUUID, ecuuid);
-            redirectAttributes.addFlashAttribute(ModelAttributes.SELECTED_RETAILER, retailerId);
             redirectAttributes.addFlashAttribute(ModelAttributes.ORDER_ID, checkout.orderId());
             redirectAttributes.addFlashAttribute(ModelAttributes.TRANSACTION_ID, orderedCheckout.embedded().orderedArticles().transactionId());
 
             return "redirect:" + uriComponentsBuilder
                     .replacePath("/")
                     .replaceQueryParam(RequestParams.ECUUID, ecuuid)
-                    .replaceQueryParam(RequestParams.RETAILER_ID, retailerId)
                     .fragment(variationId)
                     .toUriString();
         }
