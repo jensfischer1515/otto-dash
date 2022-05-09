@@ -684,7 +684,7 @@ build.gradle:
 
 ?   dependencies {
 ?       ...
-?       implementation 'co.elastic.apm:apm-agent-api:1.25.0'
+?       implementation 'co.elastic.apm:apm-agent-api:1.30.1'
 ?       ...
 ?   }
 

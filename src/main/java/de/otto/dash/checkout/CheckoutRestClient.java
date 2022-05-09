@@ -62,6 +62,9 @@ public class CheckoutRestClient {
         this.tracer = tracer;
     }
 
+    // ==============================================================================================================================================
+    // POST /checkouts
+    // ==============================================================================================================================================
     @CaptureSpan(value = "Checkout API: create checkout", type = "external", subtype = "http")
     public ResponseEntity<Checkout> create(String ecuuid) {
         LOGGER.debug("Creating new checkout");
@@ -75,6 +78,9 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, Checkout.class);
     }
 
+    // ==============================================================================================================================================
+    // POST /checkouts/{checkoutId}/items
+    // ==============================================================================================================================================
     @CaptureSpan(value = "Checkout API: add item to checkout", type = "external", subtype = "http")
     public ResponseEntity<CheckoutItem> addItem(String ecuuid, String checkoutId, CheckoutItem checkoutItem) {
         LOGGER.debug("Adding {} to checkout {}", checkoutItem, checkoutId);
@@ -89,6 +95,9 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, CheckoutItem.class);
     }
 
+    // ==============================================================================================================================================
+    // PUT /checkouts/{checkoutId}/payment
+    // ==============================================================================================================================================
     @CaptureSpan(value = "Checkout API: set payment method of checkout", type = "external", subtype = "http")
     public ResponseEntity<PaymentMethod> setPaymentMethod(String ecuuid, String checkoutId, PaymentMethod paymentMethod) {
         LOGGER.debug("Setting {} to checkout {}", paymentMethod, checkoutId);
@@ -103,6 +112,9 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, PaymentMethod.class);
     }
 
+    // ==============================================================================================================================================
+    // PUT /checkouts/{checkoutId}/invoice-address
+    // ==============================================================================================================================================
     @CaptureSpan(value = "Checkout API: set invoice address of checkout", type = "external", subtype = "http")
     public ResponseEntity<Address> setInvoiceAddress(String ecuuid, String checkoutId, Address invoiceAddress) {
         LOGGER.debug("Setting {} as invoice address to checkout {}", invoiceAddress, checkoutId);
@@ -117,6 +129,9 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, Address.class);
     }
 
+    // ==============================================================================================================================================
+    // PUT /checkouts/{checkoutId}/delivery-address
+    // ==============================================================================================================================================
     @CaptureSpan(value = "Checkout API: set delivery address of checkout", type = "external", subtype = "http")
     public ResponseEntity<DeliveryAddress> setDeliveryAddress(String ecuuid, String checkoutId, DeliveryAddress deliveryAddress) {
         LOGGER.debug("Setting {} as delivery address to checkout {}", deliveryAddress, checkoutId);
@@ -131,6 +146,9 @@ public class CheckoutRestClient {
         return restTemplate.exchange(request, DeliveryAddress.class);
     }
 
+    // ==============================================================================================================================================
+    // POST /checkouts/{checkoutId}/order
+    // ==============================================================================================================================================
     @CaptureSpan(value = "Checkout API: place order", type = "external", subtype = "http")
     public ResponseEntity<OrderedCheckout> order(String ecuuid, String checkoutId, CheckoutOrder checkoutOrder) {
         LOGGER.debug("Placing order from checkout {}", checkoutId);

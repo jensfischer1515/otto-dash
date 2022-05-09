@@ -37,7 +37,6 @@ public class Slides {
 
 
 /*
-
 !             ███████ ██     ██ ███████     ██████  ██████
 !             ██      ██     ██ ██               ██      ██
 !             █████   ██  █  ██ ███████      █████   █████
@@ -285,112 +284,12 @@ Checkout API : Team FT1
 * Model       : Java 16 records
 * View        : Thymeleaf, Bootstrap
 * Controller  : Spring Web MVC
-* Persistence : Spring Data MongoDB
 * API Client  : Spring RestTemplate, Apache HttpComponents, Caffeine
 * Logging     : Slf4J, Logback, Logbook
 
 http://otto-dash.localtest.me:8080/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     ██  █████  ██    ██  █████       ██  ██████
-     ██ ██   ██ ██    ██ ██   ██     ███ ██
-     ██ ███████ ██    ██ ███████      ██ ███████
-██   ██ ██   ██  ██  ██  ██   ██      ██ ██    ██
- █████  ██   ██   ████   ██   ██      ██  ██████
 */
-
-    public static class MyPojo {
-        private int id;
-        private String name;
-
-        public MyPojo() {
-        }
-
-        public MyPojo(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            MyPojo myPojo = (MyPojo) o;
-            return Objects.equals(id, myPojo.id) && Objects.equals(name, myPojo.name);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(id, name);
-        }
-
-        @Override
-        public String toString() {
-            return "MyPojo{" +
-                    "id='" + id + '\'' +
-                    ", name='" + name + '\'' +
-                    '}';
-        }
-    }
-
-    public record MyRecord(
-            int id,
-            String name
-    ) {
-        void typesAndVars() {
-            var myPojo = new MyPojo(1, "name");
-            var myRecord = new MyRecord(1, "name");
-            assert myPojo.getId() == myRecord.id();
-            //myRecord.name("immutable");
-        }
-    }
-
-
-
-
-
-
 
 
 
@@ -553,15 +452,10 @@ src/main/resources/elasticapm.properties:
 ?   environment=local
 ?   application_packages=de.otto.dash
 ?   global_labels=org=otto-ec,team=otto-dash
-?
-?   enabled=true
-?   instrument=true
-?   recording=true
-?   transaction_sample_rate=1.0
-?   metrics_interval=1s
-?
-?   # SLF4J/Logback integration
-?   enable_log_correlation=true
+
+
+
+
 
 
 
@@ -682,7 +576,7 @@ build.gradle:
 
 ?   dependencies {
 ?       ...
-?       implementation 'co.elastic.apm:apm-agent-api:1.25.0'
+?       implementation 'co.elastic.apm:apm-agent-api:1.30.1'
 ?       ...
 ?   }
 
@@ -694,122 +588,8 @@ build.gradle:
 
         // ... your code here
     }
-/*
-
-
-
-    build.gradle:
-
-    ?   dependencies {
-    ?       ...
-    ?       implementation 'co.elastic.apm:apm-opentracing:1.30.1'
-    ?       ...
-    ?   }
- */
-
-    @Configuration
-    public class OpenTracingConfiguration {
-        @Bean
-        public Tracer tracer() {
-            return new ElasticApmTracer();
-        }
-    }
-
-    @Component
-    public class MyService {
-        @Autowired
-        private Tracer tracer;
-
-        public void doSomethingImportant() {
-            Span span = tracer
-                    .buildSpan("Do something important")
-                    .withTag(Tags.COMPONENT, "api")
-                    .withTag(Tags.SPAN_KIND, Tags.SPAN_KIND_CLIENT)
-                    .withTag(Tags.HTTP_URL, "https://api.develop.otto.de")
-                    .withTag(Tags.HTTP_METHOD, "POST")
-                    .withTag("customLabelKey", "customLabelValue")
-                    .start();
-
-            // ... your code here
-            boolean error = true; // depending on your logic
-
-            if (error) {
-                span.setTag(Tags.ERROR, true);
-                span.setTag(Tags.HTTP_STATUS, 500);
-                span.log(Collections.singletonMap("event", "it failed"));
-                span.setBaggageItem("feature", "not yet supported");
-            }
-
-            span.finish();
-        }
-    }
 
     /*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-███    ███  ██████  ███    ██  ██████   ██████  ██████  ██████
-████  ████ ██    ██ ████   ██ ██       ██    ██ ██   ██ ██   ██
-██ ████ ██ ██    ██ ██ ██  ██ ██   ███ ██    ██ ██   ██ ██████
-██  ██  ██ ██    ██ ██  ██ ██ ██    ██ ██    ██ ██   ██ ██   ██
-██      ██  ██████  ██   ████  ██████   ██████  ██████  ██████
-
-3rd-Party OpenTracing API Contributions
-https://github.com/opentracing-contrib/java-mongo-driver
-
-build.gradle:
-
-?   dependencies {
-?       ...
-?       implementation 'io.opentracing.contrib:opentracing-mongo-driver:0.1.5'
-?       ...
-?   }
-*/
-
-    @Bean
-    public MongoClientSettingsBuilderCustomizer tracingListenerMongoCustomizer(Tracer tracer) {
-        var tracingListener = new TracingCommandListener.Builder(tracer)
-                .withSpanNameProvider(new OperationCollectionSpanNameProvider())
-                .build();
-        return mongoSettings -> mongoSettings.addCommandListener(tracingListener);
-    }
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -870,6 +650,169 @@ build.gradle:
     https://patorjk.com/software/taag/#p=display&f=ANSI%20Regular&t=doq21
     https://ascii-generator.site/
  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+     ██  █████  ██    ██  █████       ██  ██████
+     ██ ██   ██ ██    ██ ██   ██     ███ ██
+     ██ ███████ ██    ██ ███████      ██ ███████
+██   ██ ██   ██  ██  ██  ██   ██      ██ ██    ██
+ █████  ██   ██   ████   ██   ██      ██  ██████
+*/
+
+    public static class MyPojo {
+        private int id;
+        private String name;
+
+        public MyPojo() {
+        }
+
+        public MyPojo(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            MyPojo myPojo = (MyPojo) o;
+            return Objects.equals(id, myPojo.id) && Objects.equals(name, myPojo.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id, name);
+        }
+
+        @Override
+        public String toString() {
+            return "MyPojo{" +
+                    "id='" + id + '\'' +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
+    }
+
+    public record MyRecord(
+            int id,
+            String name
+    ) {
+        void typesAndVars() {
+            var myPojo = new MyPojo(1, "name");
+            var myRecord = new MyRecord(1, "name");
+            assert myPojo.getId() == myRecord.id();
+            //myRecord.name("immutable");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ ██████ ██    ██ ███████ ████████  ██████  ███    ███     ███████ ██████   █████  ███    ██ ███████
+██      ██    ██ ██         ██    ██    ██ ████  ████     ██      ██   ██ ██   ██ ████   ██ ██
+██      ██    ██ ███████    ██    ██    ██ ██ ████ ██     ███████ ██████  ███████ ██ ██  ██ ███████
+██      ██    ██      ██    ██    ██    ██ ██  ██  ██          ██ ██      ██   ██ ██  ██ ██      ██
+ ██████  ██████  ███████    ██     ██████  ██      ██     ███████ ██      ██   ██ ██   ████ ███████
+
+
+    build.gradle:
+
+    ?   dependencies {
+    ?       ...
+    ?       implementation 'co.elastic.apm:apm-opentracing:1.30.1'
+    ?       ...
+    ?   }
+ */
+
+    @Configuration
+    public class OpenTracingConfiguration {
+        @Bean
+        public Tracer tracer() {
+            return new ElasticApmTracer();
+        }
+    }
+
+    @Component
+    public class MyService {
+        @Autowired
+        private Tracer tracer;
+
+        public void doSomethingImportant() {
+            Span span = tracer
+                    .buildSpan("Do something important")
+                    .withTag(Tags.COMPONENT, "api")
+                    .withTag(Tags.SPAN_KIND, Tags.SPAN_KIND_CLIENT)
+                    .withTag(Tags.HTTP_URL, "https://api.develop.otto.de")
+                    .withTag(Tags.HTTP_METHOD, "POST")
+                    .withTag("customLabelKey", "customLabelValue")
+                    .start();
+
+            // ... your code here
+            boolean error = true; // depending on your logic
+
+            if (error) {
+                span.setTag(Tags.ERROR, true);
+                span.setTag(Tags.HTTP_STATUS, 500);
+                span.log(Collections.singletonMap("event", "it failed"));
+                span.setBaggageItem("feature", "not yet supported");
+            }
+
+            span.finish();
+        }
+    }
 
 
 }
