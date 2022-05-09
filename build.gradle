@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.6'
+    id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
@@ -15,7 +15,7 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.4"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.2"
     }
 }
 
@@ -29,9 +29,9 @@ dependencies {
     implementation 'com.github.ben-manes.caffeine:caffeine'
     implementation 'io.vavr:vavr:0.10.4'
 
-    implementation 'co.elastic.apm:apm-agent-attach:1.28.1'
-    implementation 'co.elastic.apm:apm-agent-api:1.28.1'
-    implementation 'co.elastic.apm:apm-opentracing:1.28.1'
+    implementation 'co.elastic.apm:apm-agent-attach:1.30.1'
+    implementation 'co.elastic.apm:apm-agent-api:1.30.1'
+    implementation 'co.elastic.apm:apm-opentracing:1.30.1'
     implementation 'io.opentracing.contrib:opentracing-mongo-driver:0.1.5'
 
     runtimeOnly 'org.webjars:webjars-locator:0.41'
