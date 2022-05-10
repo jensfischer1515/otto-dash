@@ -1,12 +1,11 @@
 package de.otto.dash.customer;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.data.annotation.Id;
-
 public interface CustomerModel {
 
+    String ECUUID = "44330310-e02c-42bd-9394-227208f9a106";
+
     record Address(
-            @Id @JsonIgnore String ecuuid,
+            String ecuuid,
             String salutation,
             String title,
             String lastName,

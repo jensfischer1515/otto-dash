@@ -7,13 +7,10 @@ import co.elastic.apm.attach.ElasticApmAttacher;
 import co.elastic.apm.opentracing.ElasticApmTracer;
 import io.opentracing.Span;
 import io.opentracing.Tracer;
-import io.opentracing.contrib.mongo.common.TracingCommandListener;
-import io.opentracing.contrib.mongo.common.providers.OperationCollectionSpanNameProvider;
 import io.opentracing.tag.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -23,7 +20,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
 
-public class Slides {
+public class EWS22Slides {
 
 
 
@@ -130,8 +127,7 @@ public class Slides {
 ██  ██  ██ ██   ██ ██   ██ ██  ██ ██ ██   ██
 ██   ██ ██ ██████  ██   ██ ██   ████ ██   ██
 
-https://kibana-ft1.live.logmon.cloud.otto.de/app/apm/services/order-core/service-map?rangeFrom=now-8h&rangeTo=now&environment=live
-
+https://ft1.kb.live.logmon.cloud.otto.de/app/apm/services/order-core/service-map?rangeFrom=now-8h&rangeTo=now&environment=live
 
 
 
@@ -164,6 +160,7 @@ https://kibana-ft1.live.logmon.cloud.otto.de/app/apm/services/order-core/service
 ██      ██   ██ ██    ██ ██      ██   ██ ██    ██ ██   ██    ██    ██ ██    ██ ██  ██ ██
 ██      ██   ██  ██████  ██      ██   ██  ██████  ██   ██    ██    ██  ██████  ██   ████
 
+https://github.com/otto-ec/deepsea_tracing#opentracing-data-model
 W3C Recommendation https://www.w3.org/TR/trace-context-1/
 
 ?>>> GET https://some-host/some-path HTTP/1.1
@@ -285,10 +282,9 @@ Checkout API : Team FT1
 * View        : Thymeleaf, Bootstrap
 * Controller  : Spring Web MVC
 * API Client  : Spring RestTemplate, Apache HttpComponents, Caffeine
-* Logging     : Slf4J, Logback, Logbook
 
 http://otto-dash.localtest.me:8080/
-
+https://ft1.kb.live.logmon.cloud.otto.de/app/apm/services/otto-dash/overview?comparisonEnabled=false&comparisonType=day&environment=local&kuery=&rangeFrom=now-1h&rangeTo=now
 */
 
 
@@ -525,7 +521,7 @@ src/main/resources/elasticapm.properties:
 ███████ ███████ ██   ██   ████   ██  ██████ ███████       ████   ███████ ██   ██ ███████ ██  ██████  ██   ████
 
 See each deployment as a new green bubble in Kibana
-https://kibana-ft1.live.logmon.cloud.otto.de/app/apm/services/checkout-core/transactions/view?kuery=&rangeFrom=now-3d&rangeTo=now&environment=develop&transactionName=CheckoutController%23loadCheckout
+https://ft1.kb.live.logmon.cloud.otto.de/app/apm/services/order-checkout/transactions/view?kuery=&rangeFrom=now-3d&rangeTo=now&environment=develop&comparisonEnabled=false&transactionName=GET%20%2Fcheckouts%2F%2A
 
  */
 
@@ -766,7 +762,6 @@ build.gradle:
 ██      ██    ██ ███████    ██    ██    ██ ██ ████ ██     ███████ ██████  ███████ ██ ██  ██ ███████
 ██      ██    ██      ██    ██    ██    ██ ██  ██  ██          ██ ██      ██   ██ ██  ██ ██      ██
  ██████  ██████  ███████    ██     ██████  ██      ██     ███████ ██      ██   ██ ██   ████ ███████
-
 
     build.gradle:
 

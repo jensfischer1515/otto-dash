@@ -9,7 +9,7 @@ import de.otto.dash.checkout.CheckoutModel.PaymentMethod;
 import de.otto.dash.config.MdcKeys;
 import de.otto.dash.config.ModelAttributes;
 import de.otto.dash.config.RequestParams;
-import de.otto.dash.customer.AddressRepository;
+import de.otto.dash.customer.CustomerModel.Address;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 public class PlaceOrderController {
 
     private final CheckoutRestClient checkoutRestClient;
-    private final AddressRepository addressRepository;
 
-    public PlaceOrderController(CheckoutRestClient checkoutRestClient, AddressRepository addressRepository) {
+    public PlaceOrderController(CheckoutRestClient checkoutRestClient) {
         this.checkoutRestClient = checkoutRestClient;
-        this.addressRepository = addressRepository;
     }
 
     @PostMapping("/placeOrder")
@@ -42,7 +40,18 @@ public class PlaceOrderController {
             // prepare checkout data
             var checkoutItem = new CheckoutItem(variationId, 1);
             var paymentMethod = new PaymentMethod("CREDIT_CARD_ONLINE");
-            var invoiceAddress = addressRepository.findById(ecuuid).orElseThrow();
+            var invoiceAddress = new Address(
+                    ecuuid,
+                    "Mr.",
+                    null,
+                    "Fischer",
+                    "Jens",
+                    "Werner-Otto-Straße",
+                    "1-7",
+                    "Hamburg",
+                    "22179",
+                    "MA-EC-ST-CE-T1",
+                    null);
             var deliveryAddress = new DeliveryAddress("INVOICE_ADDRESS", invoiceAddress);
             var checkoutOrder = new CheckoutOrder(request.getRemoteAddr(), "provided@customer.email");
 

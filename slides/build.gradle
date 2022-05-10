@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'de.otto.doq21'
+group = 'de.otto.dash.slides'
 version = '0.1-localbuild'
 sourceCompatibility = JavaVersion.VERSION_16
 targetCompatibility = JavaVersion.VERSION_16

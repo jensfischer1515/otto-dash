@@ -2,6 +2,7 @@ package de.otto.dash.product;
 
 import de.otto.dash.config.ModelAttributes;
 import de.otto.dash.config.RequestParams;
+import de.otto.dash.customer.CustomerModel;
 import de.otto.dash.product.ProductModel.Product;
 import de.otto.dash.product.ProductModel.ProductEmbedded;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Optional;
-
-import static de.otto.dash.customer.AddressInitializer.MY_ECUUID;
 
 @Controller
 public class ProductController {
@@ -34,7 +33,7 @@ public class ProductController {
         if (ecuuid.isEmpty() || page.isEmpty() || pageSize.isEmpty()) {
             return "redirect:" + uriComponentsBuilder
                     .replacePath("/")
-                    .replaceQueryParam(RequestParams.ECUUID, ecuuid.orElse(MY_ECUUID))
+                    .replaceQueryParam(RequestParams.ECUUID, ecuuid.orElse(CustomerModel.ECUUID))
                     .replaceQueryParam(RequestParams.PAGE, page.orElse(0))
                     .replaceQueryParam(RequestParams.PAGE_SIZE, pageSize.orElse(20))
                     .toUriString();

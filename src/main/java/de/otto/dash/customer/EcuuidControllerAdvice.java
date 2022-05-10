@@ -13,6 +13,6 @@ public class EcuuidControllerAdvice {
 
     @ModelAttribute(ModelAttributes.ECUUID)
     public String ecuuid(@RequestParam(RequestParams.ECUUID) Optional<String> ecuuid) {
-        return ecuuid.orElse(null);
+        return ecuuid.orElse(CustomerModel.ECUUID);
     }
 }
