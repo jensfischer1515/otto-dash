@@ -127,8 +127,7 @@ public class EWS22Slides {
 ██  ██  ██ ██   ██ ██   ██ ██  ██ ██ ██   ██
 ██   ██ ██ ██████  ██   ██ ██   ████ ██   ██
 
-https://ft1.kb.live.logmon.cloud.otto.de/app/apm/services/order-core/service-map?rangeFrom=now-8h&rangeTo=now&environment=live
-
+https://ft1.kb.live.logmon.cloud.otto.de/app/apm/services/order-core/service-map?environment=live&kuery=&rangeFrom=2022-05-10T07%3A00%3A00.000Z&rangeTo=2022-05-10T08%3A00%3A00.000Z
 
 
 
@@ -284,7 +283,7 @@ Checkout API : Team FT1
 * API Client  : Spring RestTemplate, Apache HttpComponents, Caffeine
 
 http://otto-dash.localtest.me:8080/
-https://ft1.kb.live.logmon.cloud.otto.de/app/apm/services/otto-dash/overview?comparisonEnabled=false&comparisonType=day&environment=local&kuery=&rangeFrom=now-1h&rangeTo=now
+https://ft1.kb.live.logmon.cloud.otto.de/app/apm/services/otto-dash/overview?comparisonEnabled=false&comparisonType=day&environment=local&kuery=&rangeFrom=now-2h&rangeTo=now
 */
 
 
@@ -521,7 +520,7 @@ src/main/resources/elasticapm.properties:
 ███████ ███████ ██   ██   ████   ██  ██████ ███████       ████   ███████ ██   ██ ███████ ██  ██████  ██   ████
 
 See each deployment as a new green bubble in Kibana
-https://ft1.kb.live.logmon.cloud.otto.de/app/apm/services/order-checkout/transactions/view?kuery=&rangeFrom=now-3d&rangeTo=now&environment=develop&comparisonEnabled=false&transactionName=GET%20%2Fcheckouts%2F%2A
+https://ft1.kb.live.logmon.cloud.otto.de/app/apm/services/otto-dash/overview?comparisonEnabled=false&comparisonType=day&environment=local&kuery=&rangeFrom=now-2h&rangeTo=now
 
  */
 
@@ -682,6 +681,7 @@ build.gradle:
  █████  ██   ██   ████   ██   ██      ██  ██████
 */
 
+    // Plain Old Java Object
     public static class MyPojo {
         private int id;
         private String name;
@@ -732,10 +732,10 @@ build.gradle:
         }
     }
 
-    public record MyRecord(
-            int id,
-            String name
-    ) {
+    // Java 16 Record
+
+    public record MyRecord(int id, String name) { }
+    public static class PojoVsRecord {
         void typesAndVars() {
             var myPojo = new MyPojo(1, "name");
             var myRecord = new MyRecord(1, "name");
@@ -743,7 +743,6 @@ build.gradle:
             //myRecord.name("immutable");
         }
     }
-
 
 
 

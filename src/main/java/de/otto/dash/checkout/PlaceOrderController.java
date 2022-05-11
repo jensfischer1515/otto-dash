@@ -61,10 +61,10 @@ public class PlaceOrderController {
             Transaction transaction = ElasticApm.currentTransaction();
             transaction.setLabel("orderId", checkout.orderId());
 
-            checkoutRestClient.addItem(ecuuid, checkout.id(), checkoutItem);
             checkoutRestClient.setPaymentMethod(ecuuid, checkout.id(), paymentMethod);
             checkoutRestClient.setInvoiceAddress(ecuuid, checkout.id(), invoiceAddress);
             checkoutRestClient.setDeliveryAddress(ecuuid, checkout.id(), deliveryAddress);
+            checkoutRestClient.addItem(ecuuid, checkout.id(), checkoutItem);
 
             var orderedCheckout = checkoutRestClient.order(ecuuid, checkout.id(), checkoutOrder).getBody();
 
